@@ -34,7 +34,7 @@
     <header id="header" class="header fixed-top">
       <div class="branding d-flex align-items-cente">
         <div class="container position-relative d-flex align-items-center justify-content-between">
-          <a href="index.html" class="logo d-flex align-items-center">
+          <a href="{{ url_for('home') }}" class="logo d-flex align-items-center">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <!-- <img src="assets/img/logo.png" alt=""> -->
             <h1 class="sitename">Repair Vision</h1>
@@ -63,7 +63,7 @@
             <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
               <h2><span>Welcome to </span><span class="accent">Repair Vision</span></h2>
               <div class="d-flex justify-content-center justify-content-lg-start">
-                <a href="" class="btn-get-started scrollto">Get Started</a>
+                <a href="{{ url_for('upload') }}" class="btn-get-started scrollto">Get Started</a>
                 <!--<a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox btn-watch-video"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>-->
               </div>
             </div>
@@ -194,7 +194,7 @@
       <div class="container footer-top">
         <div class="row gy-4">
           <div class="col-lg-5 col-md-12 footer-about">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="{{ url_for('home') }}" class="logo d-flex align-items-center">
               <span class="sitename">Repair Vision</span>
             </a>
             <p>© <span>Copyright</span> <strong class="px-1 sitename">Repair Vision</strong> <span>All Rights Reserved</span></p>
