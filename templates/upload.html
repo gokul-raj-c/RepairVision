@@ -278,6 +278,54 @@
       $('.image-upload-wrap').removeClass('image-dropping');
     });
 
+    function upload() {
+      var fileInput = document.getElementById("file");
+
+      if (!fileInput.files.length) {
+        Swal.fire("Error", "Please select an image first", "error");
+        return;
+      }
+
+      var file = fileInput.files[0];
+      var formData = new FormData();
+      formData.append("file", file);
+
+      $.ajax({
+        url: "/predict",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+        Swal.fire({
+          title: "Processing image...",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+      },
+      success: function (res) {
+      Swal.close();
+
+      if (res.status === "no_car") {
+        Swal.fire({
+          title: "Validation Failed",
+          text: "No car detected in the uploaded image.",
+          icon: "error"
+        });
+      } 
+      else if (res.status === "car_detected") {
+        window.location.href = "/result";
+      }
+    },
+    error: function () {
+      Swal.fire("Error", "Server error occurred", "error");
+    }
+  });
+}
+
     
   </script>
 
