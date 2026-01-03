@@ -14,6 +14,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "car_vs_noncar_model")
 
+#car_classifier = tf.keras.models.load_model("models/car_detection_model.h5")
+
 car_classifier = tf.saved_model.load(MODEL_PATH)
 infer = car_classifier.signatures["serving_default"]
 
@@ -59,12 +61,22 @@ def predict():
 
     prediction = list(outputs.values())[0].numpy()[0][0]
 
-    is_car = prediction < 0.5  # car = 0, non_car = 1
+    # Since: car = 0, non_car = 1
+    car_confidence = 1 - prediction
 
-    if not is_car:
-        return jsonify({"status": "no_car"})
+    THRESHOLD = 0.7  # stricter threshold
 
-    return jsonify({"status": "car_detected"})
+    if car_confidence < THRESHOLD:
+        return jsonify({
+            "status": "no_car",
+            "confidence": float(car_confidence)
+        })
+
+    return jsonify({
+        "status": "car_detected",
+        "confidence": float(car_confidence)
+    })
+
 
 
 
